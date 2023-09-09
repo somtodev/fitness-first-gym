@@ -1,0 +1,20 @@
+{% extends "components/base.html" %}
+{% block head %}
+<title> Fitness First Gym | Login </title>
+{% endblock %}
+
+
+{% block content %}
+<main class="container">
+    <h1 class="py-4">Login</h1>
+    <form class="form" action="/auth/login" method="post">
+        <div class="form-group my-2">
+            <input id="email" type="email" name="email" placeholder="Enter Email" required />
+        </div>
+        <div class="form_group my-2">
+            <input id="password" type="password" name="password" placeholder="Enter Password" required />
+        </div>
+        <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+</main>
+{% endblock %}
