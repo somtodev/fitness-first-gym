@@ -1,0 +1,24 @@
+{% extends "components/admin_base.html" %}
+{% block head %}
+<title>Package Preview</title>
+{% endblock head %}
+
+{% block content %}
+<h1>Preview Packages</h1>
+
+<div class="row">
+
+    {% for package in packages %}
+    <div class="col">
+        <a class="card" style="width: 18rem;" href="/admin/edit-package/{{package.id}}">
+            <div class="card-body">
+                <h3 class="card-title">{{package.name}}</h3>
+                <h4 class="">{{package.price}}</h4>
+                <p class="card-text">{{package.description}}</p>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

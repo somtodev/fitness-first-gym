@@ -30,7 +30,7 @@ def login():
                 flash(f'Success: Welcome, {current_user.firstname}')
                 return redirect(url_for('index'))
             else:
-                return redirect('/admin')
+                return redirect('/admin/dashboard')
 
     else:
         return render_template('pages/auth/login.html')

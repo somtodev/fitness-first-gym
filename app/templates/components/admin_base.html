@@ -21,20 +21,10 @@
 </head>
 
 <body class="relative">
-
-    {% with msg = get_flashed_messages() %}
-    {% if msg %}
-    {% for message in msg %}
-    <div class="position-fixed bottom-0 end-0 right-4">
-        <div class="alert alert-info alert-dismissible fade show m-4" role="alert">
-            <strong>{{message}}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
-    {% block content %} {% endblock %}
+    <main>
+        
+        <div>{% block content %} {% endblock %}</div>
+    </main>
 </body>
 
 </html>

@@ -5,10 +5,14 @@ from flask_login import login_required, current_user
 
 @app.route('/')
 def index():
-    if 'user' in session:
+    
+    try:
         if current_user.isAdmin:
             return redirect('/admin/dashboard')
-    return render_template('index.html')
+    except:
+        return render_template('index.html')
+    else:
+        return render_template('index.html')
 
 
 @app.route('/contact-us')
