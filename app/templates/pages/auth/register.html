@@ -3,13 +3,6 @@
 {% endblock %} {% block content %}
 
 <main class="container">
-    <h1 class="py-4">Register</h1>
-
-    {% if msg %}
-
-    <div class="alert alert-warning my-4 rounded-lg" role="alert">{{msg}}</div>
-
-    {% endif %}
 
     <form class="form" action="/auth/register" method="post">
         <div class="form-group my-2">

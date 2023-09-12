@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
   <div class="container">
-    <a class="text-md navbar-brand" href="/">
+    <a class="text-md navbar-brand text-primary" href="/">
       Fitness First Gym
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -8,14 +8,40 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
       <ul class="navbar-nav me-auto mb-0">
+        {% if current_user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/user/classes">Classes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/user/bookings">Bookings</a>
+        </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link" aria-current="page" href="/contact-us">Contact Us</a>
         </li>
+
       </ul>
+
       <div class="d-flex flex-column flex-lg-row">
+        {% if current_user.is_authenticated %}
+        <ul class="navbar-nav me-auto mb-0">
+          <li class="nav-item">
+            <span class="nav-link">Welcome, {{ current_user.firstname }} 🏋️</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/profile">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-primary" href="/auth/logout">Logout</a>
+          </li>
+
+        </ul>
+        {% else %}
         <a class="btn btn-light" href="/auth/login">Login</a>
         <a class="btn btn-primary" href="/auth/register">Register</a>
+        {% endif %}
       </div>
     </div>
   </div>

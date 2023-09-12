@@ -1,8 +1,10 @@
 from app import db
 from datetime import datetime
+from flask_login import UserMixin
+from app import login_manager   
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(200), nullable=False)
@@ -14,3 +16,8 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.email
+
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(id)
