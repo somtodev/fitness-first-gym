@@ -26,11 +26,11 @@ class Class(db.Model):
     description = db.Column(db.String(500), nullable=False)
     schedule = db.Column(db.DateTime, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
-    category = db.relationship('Category', backref=db.backref('packages', lazy='dynamic'))
+    category = db.relationship('Category', backref=db.backref('class_category', lazy='dynamic'))
     trainer_id = db.Column(db.Integer, db.ForeignKey('trainer.id'))
-    trainer = db.relationship('Trainer', backref=db.backref('package', lazy='dynamic'))
+    trainer = db.relationship('Trainer', backref=db.backref('class', lazy='dynamic'))
     current_capacity = db.Column(db.Integer, default=0)
-    max_capacity = db.Colum(db.Integer, default=10)
+    max_capacity = db.Column(db.Integer, default=10)
 
 
 class Trainer(db.Model):
@@ -38,7 +38,7 @@ class Trainer(db.Model):
     firstname = db.Column(db.String(100), nullable=False)
     lastname = db.Column(db.String(100), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
-    category = db.relationship('Category', backref=db.backref('packages', lazy='dynamic'))
+    category = db.relationship('Category', backref=db.backref('trainer_category', lazy='dynamic'))
 
 
 @login_manager.user_loader
