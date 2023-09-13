@@ -4,7 +4,7 @@
 {% endblock head %}
 
 {% block content %}
-<form action="/admin/edit-package/{{package.id}}" method="post" class="container mx-auto my-3 row g-3">
+<form action="/admin/package/edit/{{package.id}}" method="post" class="container mx-auto my-3 row g-3">
     <h1>Edit Package</h1>
     <div class="col-12">
         <label for="inputNanme4" class="form-label">Name</label>
@@ -26,18 +26,23 @@
     <div class="col-12">
         <label for="inputEmail4" class="form-label">Type</label>
         <select id="package_type" name="package_type" class="form-select">
-            <option selected value="1">Default</option>
+            <option selected value="{{package.package_type.id}}">{{package.package_type.name}}</option>
             {% for package_type in package_types %}
+            {% if package_type.name != package.package_type.name %}
             <option value="{{package_type.id}}">{{package_type.name}}</option>
+            {% endif %}
             {% endfor %}
         </select>
     </div>
     <div class="col-12">
         <label for="inputEmail4" class="form-label">Category</label>
         <select id="category" name="category" class="form-select">
-            <option selected value="{{package.category_id if package.category_id else 1 }}">{{ category }}</option>
+            <option selected value="{{package.category_id if package.category_id else 1 }}">{{ package.category.name }}
+            </option>
             {% for category in categories %}
+            {% if category.name != package.category.name %}
             <option value="{{category.id}}">{{category.name}}</option>
+            {% endif %}
             {% endfor %}
         </select>
     </div>

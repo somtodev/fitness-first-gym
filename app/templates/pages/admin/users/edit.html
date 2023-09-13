@@ -1,0 +1,42 @@
+{% extends "components/admin_base.html" %}
+{% block head %}
+<title>Admin | Edit User</title>
+{% endblock head %}
+
+{% block content %}
+<form action="/user/edit/{{user.id}}" method="post">
+    <div class="form-group my-4">
+        <label for="subject" class="form-label">Firstname:</label>
+        <input type="text" class="form-control" id="firstname" name="firstname" value="{{user.firstname}}"
+            required />
+    </div>
+    <div class="form-group my-4">
+        <label for="subject" class="form-label">Lastname:</label>
+        <input type="text" class="form-control" id="lastname" name="lastname"
+            value="{{user.lastname if user.lastname}}" required />
+    </div>
+    <div class="form-group my-4">
+        <label for="subject" class="form-label">Email Address:</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{user.email}}" readonly />
+    </div>
+    <div class="col-12">
+        <label for="inputEmail4" class="form-label">Membership</label>
+        <select id="membership" name="membership"  class="form-select">
+            {% if user.membership_id != None %}
+                <option selected value="0">None</option>
+            {% endif %}
+            <option selected value="{{user.membership_id}}">{{user.membership.name}}</option>
+            {% for membership in memberships %}
+            {% if membership.name != user.membership.name %}
+                    <option value="{{membership.id}}">{{membership.name}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group my-4 d-flex justify-content-between">
+        <button class="btn btn-primary" type="submit">Update</button>
+        <a class="btn btn-warning" href="/users/all">Back</a>
+    </div>
+</form>
+
+{% endblock content %}

@@ -3,7 +3,10 @@ from flask import request, redirect, render_template, flash
 from flask_login import login_required, current_user, login_user
 from app import db
 from app.models import User
+from app.models.Package import Package
 from werkzeug.security import generate_password_hash, check_password_hash
+
+from app.admin_views import authorize_request
 
 
 @app.route('/user')
@@ -26,7 +29,7 @@ def userBookings():
 
 @app.route('/user/profile', methods=['POST'])
 @login_required
-def userProfile():
+def user_profile():
 
     new_firstname = request.form.get('firstname')
     new_lastname = request.form.get('lastname')
@@ -43,7 +46,7 @@ def userProfile():
 
 @app.route('/user/profile/update-password', methods=['POST'])
 @login_required
-def updatePassword():
+def update_password():
 
     old_password = request.form.get('current')
     new_password = request.form.get('new')
@@ -61,3 +64,44 @@ def updatePassword():
     db.session.commit()
 
     return redirect('/profile')
+
+
+@app.route('/users/all')
+@login_required
+@authorize_request
+def all_users():
+   users = User.query.all()
+   return render_template('pages/admin/users/preview.html', users=users)
+
+
+@app.route('/user/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+@authorize_request
+def modify_user(id):
+
+    user = User.query.get(id)
+    memberships = Package.query.all()
+    
+    if request.method == 'POST':
+        user.firstname = request.form.get('firstname')
+        user.lastname = request.form.get('lastname')
+        user.email = request.form.get('email')
+        user.membership_id = request.form.get('membership')
+
+        db.session.commit()
+        flash('User Details Updated')
+
+    return render_template('pages/admin/users/edit.html', user=user, memberships=memberships)
+
+
+@app.route('/user/delete/<int:id>', methods=['GET'])
+@login_required
+@authorize_request
+def delete_user(id):
+
+    user = User.query.get(id)
+
+    db.session.delete(user)
+    db.session.commit()
+
+    return redirect('/admin/dashboard')

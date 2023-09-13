@@ -5,6 +5,7 @@ class PackageType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
 
+
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
@@ -12,7 +13,7 @@ class Category(db.Model):
 
 class Package(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
+    name = db.Column(db.String(100), unique=True)
     price = db.Column(db.Float)
     description = db.Column(db.String(100))
     premium = db.Column(db.Boolean, default=True)
