@@ -1,13 +1,9 @@
 from app import app
 from flask import request, redirect, render_template, flash
-from flask_login import login_required, current_user, login_user
+from flask_login import login_required, current_user
 from app import db
-from app.models import User
-from app.models.Package import Package
-from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.admin_views import authorize_request
-
 
 @app.route('/admin/class/all')
 @login_required
@@ -24,5 +20,5 @@ def create_class():
 
 @app.route('/class/<int:user_id>/', methods=['GET'])
 @login_required
-def get_user_class():
+def get_user_class(user_id):
     pass
