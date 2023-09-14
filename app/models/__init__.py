@@ -22,7 +22,7 @@ class User(UserMixin, db.Model):
 
 class Class(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), nullable=False)
+    name = db.Column(db.String(150), unique=True, nullable=False)
     description = db.Column(db.String(500), nullable=False)
     schedule = db.Column(db.DateTime, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))

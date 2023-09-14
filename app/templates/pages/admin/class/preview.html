@@ -4,6 +4,20 @@
 {% endblock head %}
 
 {% block content %}
+{% for class in classes %}
+    
+    <div class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title text-primary">{{class.name}}</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">{{class.category.name}}</h6>
+                <p class="card-text">{{class.description}}</p>
+                <a href="/admin/class/edit/{{class.id}}" class="card-link btn btn-primary">Modify</a>
+                <a href="/admin/class/delete/{{class.id}}" class="card-link btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
 
 
+    {% endfor %}
 {% endblock content %}

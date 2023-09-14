@@ -4,6 +4,47 @@
 {% endblock head %}
 
 {% block content %}
-
-
+<form action="/admin/class/new" method="post" class="container mx-auto my-3 row g-3">
+    <h1>Create Class</h1>
+    <div class="col-12">
+        <label for="inputNanme4" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="col-12">
+        <div class="form-floating">
+            <textarea class="form-control" placeholder="Address" id="description" name="description" required
+                style="height: 100px;"></textarea>
+            <label for="floatingTextarea">Description</label>
+        </div>
+    </div>
+    <div class="col-12">
+        <label for="inputEmail4" class="form-label">Schedule</label>
+        <input type="datetime-local" class="form-control" id="schedule" name="schedule" required>
+    </div>
+    <div class="col-12">
+        <label for="inputEmail4" class="form-label">Capacity</label>
+        <input type="number" min="5" max="30" class="form-control" id="capacity" name="capacity" value="5" required>
+    </div>
+    <div class="col-12">
+        <label for="inputEmail4" class="form-label">Trainer</label>
+        <select id="trainer" name="trainer" class="form-select">
+            {% for trainer in trainers %}
+                <option value="{{trainer.id}}">{{"Trainer " + trainer.firstname}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-12">
+        <label for="inputEmail4" class="form-label">Category</label>
+        <select id="category" name="category"  class="form-select">
+            <option selected value="1">Default</option>
+            {% for category in categories %}
+                <option value="{{category.id}}">{{category.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="text-left">
+        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+    </div>
+</form>
 {% endblock content %}
