@@ -1,8 +1,14 @@
 {% extends "components/base.html" %} {% block head %}
 <title>500 | Server Error</title>
 {% endblock %} {% block content %}
-<h1>Server Error</h1>
-<p>
-    Try again later
-</p>
+<div class="d-flex align-items-center justify-content-center vh-100 section-notfound">
+    <div class="text-center">
+        <h1 class="display-1 fw-bold">500</h1>
+        <p class="fs-3"> <span class="text-danger">Server Error :{</span></p>
+        <p class="lead">
+            Ops, something went wrong, please again later...
+        </p>
+        <a href="/" class="btn btn-info text-white">Go To Home Page</a>
+    </div>
+</div>
 {% endblock %}

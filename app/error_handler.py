@@ -7,7 +7,7 @@ def page_not_found(e):
     return render_template("pages/error/404.html")
 
 
-# @app.errorhandler(500)
-# def server_error(e):
-#     print(e)
-#     return render_template("pages/error/500.html")
+@app.errorhandler(500)
+def server_error(e):
+    print(e)
+    return render_template("pages/error/500.html")

@@ -4,9 +4,14 @@
 {% endblock head %}
 
 {% block content %}
-{% for class in classes %}
-    
-    <div class="col">
+
+<h1 class="my-2">All Classes</h1>
+<hr />
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row align-items-stretch justify-content-start card-deck">
+    {% for class in classes %}
+
+    <div class="col-auto">
         <div class="card" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title text-primary">{{class.name}}</h5>
@@ -18,6 +23,7 @@
         </div>
     </div>
 
-
+    
     {% endfor %}
+</div>
 {% endblock content %}

@@ -1,8 +1,9 @@
-from flask import redirect, render_template, request, url_for, flash, session
+from flask import redirect, render_template, request, url_for, flash, session, jsonify
 from functools import wraps
 from app import app
 from app import db
 from flask_login import login_required, current_user
+from sqlalchemy import inspect, text
 
 
 from app.models.Package import Package, Category, PackageType
@@ -120,3 +121,70 @@ def delete_package(id):
 
    flash('Successfully Deleted')
    return redirect('/admin/package/all')
+
+
+@app.route('/admin/categories', methods=['GET'])
+@login_required
+@authorize_request
+def manage_categories():
+   categories = Category.query.all()
+   return render_template('pages/admin/category.html', categories=categories)
+
+
+@app.route('/admin/category/new', methods=['POST'])
+@login_required
+@authorize_request
+def new_category():
+   content = request.form.get('name')
+
+   category = Category(name=content)
+
+   db.session.add(category)
+   db.session.commit()
+
+   return redirect(url_for('manage_categories'))
+
+
+@app.route('/admin/category/edit/<int:id>', methods=['GET'])
+@login_required
+@authorize_request
+def edit_category(id):
+
+   category = Category.query.get(id)
+
+   category.name = request.form.get('name')
+
+   db.session.commit()
+
+   flash('Category Updated')
+
+   return redirect(url_for('manage_categories'))
+
+@app.route('/admin/category/delete/<int:id>', methods=['GET'])
+@login_required
+@authorize_request
+def delete_category(id):
+
+   category = Category.query.get(id)
+
+   inspector = inspect(db.engine)
+   for table_name in inspector.get_table_names():
+      for f_key in inspector.get_foreign_keys(table_name):
+         if f_key['referred_table'] == 'category':
+            table = db.metadata.tables[table_name]
+
+            try:
+               for column in table.c:
+
+                  print(column)
+               
+            except Exception as error:
+               print(error)
+               return f'HEHE {error}'
+
+   # db.session.delete(category)
+   # db.session.commit()
+
+   flash('Category Deleted')   
+
+   return redirect(url_for('manage_categories'))

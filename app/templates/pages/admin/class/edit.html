@@ -26,7 +26,7 @@
     </div>
     <div class="col-12">
         <label for="inputEmail4" class="form-label">Capacity</label>
-        <input type="number" min="5" max="30" class="form-control" id="capacity" name="capacity" value="5" required>
+        <input type="number" min="5" max="30" class="form-control" id="capacity" name="capacity" value="{{5 if not _class.max_capacity else _class.max_capacity}}" required>
     </div>
     <div class="col-12">
         <label for="inputEmail4" class="form-label">Trainer</label>

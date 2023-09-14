@@ -23,7 +23,7 @@
         <label for="inputEmail4" class="form-label">Membership</label>
         <select id="membership" name="membership"  class="form-select">
             {% if user.membership_id != None %}
-                <option selected value="0">None</option>
+                <option selected value="{{None}}">None</option>
             {% endif %}
             <option selected value="{{user.membership_id}}">{{user.membership.name}}</option>
             {% for membership in memberships %}

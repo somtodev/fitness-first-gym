@@ -1,5 +1,5 @@
 from app import app
-from flask import request, redirect, render_template, flash
+from flask import request, redirect, render_template, flash, url_for
 from flask_login import login_required, current_user, login_user
 from app import db
 from app.models import User
@@ -103,5 +103,6 @@ def delete_user(id):
 
     db.session.delete(user)
     db.session.commit()
+    flash('User Deleted')
 
-    return redirect('/admin/dashboard')
+    return redirect(url_for('all_users'))
