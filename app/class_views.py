@@ -8,14 +8,16 @@ from app.admin_views import authorize_request
 @app.route('/admin/class/all')
 @login_required
 def all_classes():
-    return 'All Classes'
+    return render_template('pages/admin/class/preview.html')
 
 
 @app.route('/admin/class/new', methods=['GET','POST'])
 @login_required
 @authorize_request
 def create_class():
-    return 'New Class'
+    if request.method == 'POST':
+        return 'Creating Class'
+    return render_template('pages/admin/class/new.html')
 
 
 @app.route('/class/<int:user_id>/', methods=['GET'])
