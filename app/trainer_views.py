@@ -13,21 +13,27 @@ from app.models import Trainer, Class
 @login_required
 @authorize_request
 def all_trainers():
-    pass
+    return render_template('pages/admin/trainer/preview.html')
+    
 
 
-@app.route('/admin/trainer/new')
+@app.route('/admin/trainer/new', methods=['GET','POST'])
 @login_required
 @authorize_request
-def edit_trainer():
-    pass
+def new_trainer():
+    
+    if request.form == 'POST':
+        pass
+
+    return render_template('pages/admin/trainer/new.html')
 
 
-@app.route('/admin/trainer/edit/<int:id>')
+@app.route('/admin/trainer/edit/<int:id>', methods=['GET','POST'])
 @login_required
 @authorize_request
 def edit_trainer(id):
-    pass
+    return render_template('pages/admin/trainer/edit.html')
+    
 
 
 @app.route('/admin/trainer/delete/<int:id>')

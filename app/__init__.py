@@ -18,4 +18,5 @@ from app import auth_views
 from app import admin_views
 from app import user_views
 from app import class_views
+from app import trainer_views
 from app import error_handler
