@@ -7,7 +7,7 @@ from sqlalchemy import inspect, text
 
 
 from app.models.Package import Package, Category, PackageType
-from app.models import User
+from app.models import User, Class, Trainer
 
 def authorize_request(view_func):
    @wraps(view_func)
@@ -165,26 +165,30 @@ def edit_category(id):
 @authorize_request
 def delete_category(id):
 
+    # CLASS, TRAINER, PACKAGE
+
    category = Category.query.get(id)
 
-   inspector = inspect(db.engine)
-   for table_name in inspector.get_table_names():
-      for f_key in inspector.get_foreign_keys(table_name):
-         if f_key['referred_table'] == 'category':
-            table = db.metadata.tables[table_name]
+   if category is None:
+       return jsonify({'message': 'Parent Not Found'}), 404
 
-            try:
-               for column in table.c:
+   cate_class = Class.query.filter_by(category_id=id).all()
+   cate_trainer = Trainer.query.filter_by(category_id=id).all()
+   cate_package = Package.query.filter_by(category_id=id).all() 
 
-                  print(column)
-               
-            except Exception as error:
-               print(error)
-               return f'HEHE {error}'
+   for _class in cate_class:
+       db.session.delete(_class)
+       flash(f'All {category.name} classes deleted')
+   for trainer in cate_trainer:
+       db.session.delete(trainer)
+       flash(f'All {category.name} packages deleted')
+   for package in cate_package:
+       flash(f'All {category.name} trainers deleted')
+       db.session.delete(package)
 
-   # db.session.delete(category)
-   # db.session.commit()
-
+   db.session.delete(category)
    flash('Category Deleted')   
+
+   db.session.commit()
 
    return redirect(url_for('manage_categories'))
