@@ -1,9 +1,33 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/poppins/Poppins-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PoppinsBold';
+    src: url('../fonts/poppins/Poppins-Bold.ttf');
+    font-weight: 500;
+    font-style: 500;
+}
+
+@font-face {
+    font-family: 'Merriweather';
+    src: url('../fonts/merriweather/Merriweather-Regular.ttf');
+}
+
+
 body{
-    font-family: 'SF UI Text';
+    font-family: 'Merriweather';
 }
 
 h1, h2, h3, h4 , h5 , h6,
 .h1, .h2, .h3 , .h4, .h5 ,.h6{
-    font-family: 'Poppins';
+    font-family: 'PoppinsBold';
     font-weight: 500;
+}
+
+span, p{
+    font-family: 'Poppins';
 }
