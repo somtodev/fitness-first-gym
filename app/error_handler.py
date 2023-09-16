@@ -4,6 +4,7 @@ from app import app
 
 @app.errorhandler(404)
 def page_not_found(e):
+    print(e)
     return render_template("pages/error/404.html")
 
 

@@ -4,5 +4,30 @@
 {% endblock head %}
 
 {% block content %}
-
+<form action="/admin/trainer/edit/{{trainer.id}}" method="post" class="container mx-auto my-3 row g-3">
+    <h1>Edit Trainer</h1>
+    <div class="col-12">
+        <label for="inputNanme4" class="form-label">Firstname:</label>
+        <input type="text" class="form-control" id="firstname" name="firstname" value="{{trainer.firstname}}" minlength="3" required>
+    </div>
+    <div class="col-12">
+        <label for="inputNanme4" class="form-label">Lastname:</label>
+        <input type="text" class="form-control" id="lastname" name="lastname" value="{{trainer.lastname}}" minlength="3" required>
+    </div>
+    <div class="col-12">
+        <label for="inputEmail4" class="form-label">Category</label>
+        <select id="category" name="category"  class="form-select">
+            <option value="{{trainer.category_id}}">{{trainer.category.name}}</option>
+            {% for category in categories %}
+                {% if category.name != trainer.category.name %}
+                    <option value="{{category.id}}">{{category.name}}</option> 
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="text-left">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+    </div>
+</form>
 {% endblock content %}

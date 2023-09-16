@@ -35,6 +35,17 @@ def create_class():
         class_category = request.form.get('category')
 
 
+        trainer = Trainer.query.get(class_trainer)
+
+        if trainer is None:
+            flash('Class Must Have An Assigned Trainer')
+            return redirect(url_for('create_class'))
+
+        if category is None:
+            flash('Class Must Be Under A Category')
+            return redirect(url_for('create_class'))
+
+
         new_class = Class(name=class_name, description=class_description, schedule=class_schedule, trainer_id=class_trainer, category_id=class_category, max_capacity=class_capacity)
         
         try:

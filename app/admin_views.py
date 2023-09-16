@@ -145,15 +145,16 @@ def new_category():
    return redirect(url_for('manage_categories'))
 
 
-@app.route('/admin/category/edit/<int:id>', methods=['GET'])
+@app.route('/admin/category/edit/<int:id>', methods=['POST'])
 @login_required
 @authorize_request
 def edit_category(id):
 
    category = Category.query.get(id)
 
-   category.name = request.form.get('name')
+   print(category.name)
 
+   category.name = request.form.get('name')
    db.session.commit()
 
    flash('Category Updated')

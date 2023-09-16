@@ -11,17 +11,36 @@
 </form>
 <hr />
 
-<div class="d-flex-col">
+<div class="d-flex-col" container>
     {% for category in categories %}
-    <div class="d-flex justify-content-between align-items-center rounded-4 rounded-top rounded-bottom my-2 p-2">
-        <span>{{category.name}}</span>
-        <div>
-            <a class="btn btn-primary">EDIT</a>
+    <form method="post" action="/admin/category/edit/{{category.id}}" class="d-flex-col justify-end rounded-4 rounded-top rounded-bottom my-2 p-2" form-cates>
+        <input type="text" class="form-control" value="{{category.name}}" id="name" name="name" cate-name readonly />
+        <div class="mt-2">
+            <button type="button" class="btn btn-primary" edit-btn>EDIT</button>
             <a href="/admin/category/delete/{{category.id}}" class="btn btn-danger">DELETE</a>
         </div>
-    </div>
+    </form>
     <hr>
     {% endfor %}
 </div>
 
+
+<script defer>
+    const container = document.querySelector('[container]')
+    const parent = container.querySelectorAll('[form-cates]')
+
+    parent.forEach(elem => {
+        const edit_btn = elem.querySelector('[edit-btn]')
+        const input_field = elem.querySelector('[cate-name]')
+        edit_btn.addEventListener('click', () => {
+            input_field.removeAttribute('readonly')
+            input_field.setAttribute('required','')
+            edit_btn.textContent = 'Update'
+            edit_btn.addEventListener('click', () => {
+                edit_btn.setAttribute('type','submit')
+            })
+        })
+    })
+
+</script>
 {% endblock %}

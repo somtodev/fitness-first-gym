@@ -8,6 +8,11 @@
 <h1 class="my-2">Preview Packages</h1>
 <hr />
 
+{% if not packages %}
+<div class="container my-4" style="min-height: 80vh; display: grid; place-content: center;">
+    <h1 class="text-center">No Package Available</h1>
+    <p class="h5 text-center" style="opacity: .6;">Create a new package to view here</p>
+</div>{% else %}
 <div class="row">
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row align-items-stretch justify-content-start card-deck">
@@ -31,4 +36,5 @@
     </div>
 </div>
 
+{% endif %}
 {% endblock content %}

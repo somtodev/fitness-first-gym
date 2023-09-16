@@ -8,7 +8,7 @@
     <h1>Edit Class</h1>
     <div class="col-12">
         <label for="inputNanme4" class="form-label">Name</label>
-        <input type="text" class="form-control" id="name" name="name" value="{{_class.name if _class.name}}" required>
+        <input type="text" class="form-control" id="name" name="name" value="{{_class.name if _class.name}}" minlength="6" required>
     </div>
     <div class="col-12">
         <div class="form-floating">
