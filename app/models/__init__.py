@@ -12,9 +12,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(200), nullable=False)
     isAdmin = db.Column(db.Boolean(), default=False)
-    membership_id = db.Column(db.Integer, db.ForeignKey('package.id'), nullable=True)
-    membership = db.relationship('Package', backref=db.backref('packages', lazy='dynamic'))
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
+
 
     def __repr__(self):
         return '<User %r>' % self.email
@@ -26,7 +25,7 @@ class Class(db.Model):
     description = db.Column(db.String(500), nullable=False)
     schedule = db.Column(db.DateTime, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
-    category = db.relationship('Category', backref=db.backref('class_category', lazy='dynamic'))
+    category = db.relationship('Category', backref=db.backref('class', lazy='dynamic'))
     trainer_id = db.Column(db.Integer, db.ForeignKey('trainer.id'))
     trainer = db.relationship('Trainer', backref=db.backref('class', lazy='dynamic'))
     current_capacity = db.Column(db.Integer, default=0)
@@ -39,6 +38,13 @@ class Trainer(db.Model):
     lastname = db.Column(db.String(100), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     category = db.relationship('Category', backref=db.backref('trainer_category', lazy='dynamic'))
+
+
+class UserPaymentDetails(db.Model):
+    account_name = db.Column(db.String(100), nullable=False, primary_key=True)
+    card_number = db.Column(db.String(20), nullable=False)
+    card_date = db.Column(db.Date, nullable=False)
+    card_cvv = db.Column(db.String(4), nullable=False)
 
 
 @login_manager.user_loader
