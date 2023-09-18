@@ -7,7 +7,7 @@ from datetime import datetime
 
 from app.admin_views import authorize_request
 from app.models.Package import Category
-from app.models import Trainer, Class
+from app.models import Trainer, Class, User
 
 
 @app.route('/admin/class/all')
@@ -27,27 +27,32 @@ def create_class():
 
     if request.method == 'POST':
 
-        class_name = request.form.get('name')
-        class_description = request.form.get('description')
-        class_schedule = datetime.strptime(request.form.get('schedule'), '%Y-%m-%dT%H:%M')
-        class_capacity = request.form.get('capacity')
-        class_trainer = request.form.get('trainer')
-        class_category = request.form.get('category')
+        try:
+            class_name = request.form.get('name')
+            class_description = request.form.get('description')
+            class_schedule = datetime.strptime(request.form.get('schedule'), '%Y-%m-%dT%H:%M')
+            class_capacity = request.form.get('capacity')
+            class_trainer = request.form.get('trainer')
+            class_category = request.form.get('category')
 
+            category = Category.query.get(class_category)
+            trainer = Trainer.query.get(class_trainer)
 
-        trainer = Trainer.query.get(class_trainer)
+            if trainer is None:
+                flash('Class Must Have An Assigned Trainer')
 
-        if trainer is None:
-            flash('Class Must Have An Assigned Trainer')
-            return redirect(url_for('create_class'))
+            if category is None:
+                flash('Class Must Be Under A Category')
 
-        if category is None:
-            flash('Class Must Be Under A Category')
-            return redirect(url_for('create_class'))
+            new_class = Class(name=class_name, description=class_description, schedule=class_schedule, trainer_id=class_trainer, category_id=class_category, max_capacity=class_capacity)
 
+            if class_trainer != class_category:
+                flash('Trainer must be under same category')
+                return redirect(url_for('edit_class'))
 
-        new_class = Class(name=class_name, description=class_description, schedule=class_schedule, trainer_id=class_trainer, category_id=class_category, max_capacity=class_capacity)
-        
+        except Exception as error:
+            print(error)
+
         try:
             db.session.add(new_class)
             db.session.commit()
@@ -55,7 +60,7 @@ def create_class():
             print(error)
 
         flash('Class Created')
-        return redirect(url_for('admin_dashboard'))
+        return redirect(url_for('all_classes'))
     
     return render_template('pages/admin/class/new.html', categories=categories, trainers=trainers)
 
@@ -111,4 +116,11 @@ def delete_class(id):
 @app.route('/class/<int:user_id>/', methods=['GET'])
 @login_required
 def get_user_class(user_id):
-    pass
+
+    user = User.query.get(user_id)
+
+    classes = Class.query.filter_by(category_id=1)
+
+    print(classes)
+
+    return redirect(url_for('admin_dashboard'))

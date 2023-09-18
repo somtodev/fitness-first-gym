@@ -7,13 +7,14 @@ from app.models.Package import Package
 
 @app.route('/')
 def index():
-    packages = Package.query.all() 
+    packages = Package.query.all()
     if '_user_id' in session:
         if current_user.isAdmin:
             return redirect(url_for('admin_dashboard'))
         else:
            return render_template('index.html', packages=packages)
     return render_template('index.html', packages=packages)
+
 
 @app.route('/contact-us')
 def contactUs():

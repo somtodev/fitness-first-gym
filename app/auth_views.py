@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, session, url_for, flash
 from app import app
 from app import db
-from app.models import User
+from app.models import User, Membership
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 
@@ -58,6 +58,9 @@ def register():
 
         try:
             db.session.add(user)
+            user = User.query.filter_by(email=user_email).first()
+            membership = Membership(user_id=user.id)
+            db.session.add(membership)
             db.session.commit()
             return redirect('/auth/login')
         except Exception as err:

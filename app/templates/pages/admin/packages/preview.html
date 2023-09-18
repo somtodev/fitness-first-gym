@@ -12,28 +12,29 @@
 <div class="container my-4" style="min-height: 80vh; display: grid; place-content: center;">
     <h1 class="text-center">No Package Available</h1>
     <p class="h5 text-center" style="opacity: .6;">Create a new package to view here</p>
-</div>{% else %}
-<div class="row">
+</div>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row align-items-stretch justify-content-start card-deck">
-        {% for package in packages %}
+{% else %}
 
-        <div class="col-auto">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title text-primary">{{package.name}}</h5>
-                    <h6 class="card-subtitle mb-2 text-body-secondary"> ₦ {{package.price}} | {{package.category.name}}
-                    </h6>
-                    <p class="card-text">{{package.description}}</p>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row align-items-stretch justify-content-start card-deck">
+    {% for package in packages %}
+
+    <div class="col gy-3">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title text-primary">{{package.name}}</h5>
+                <p class="card-subtitle mb-2 text-body-secondary"> ₦ {{package.price}} | {{package.category.name}}</p>
+                <p class="card-text">{{package.description}}</p>
+                <div class="mt-auto">
                     <a href="/admin/package/edit/{{package.id}}" class="card-link btn btn-primary">Modify</a>
                     <a href="/admin/package/delete/{{package.id}}" class="card-link btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>
-
-
-        {% endfor %}
     </div>
+
+
+    {% endfor %}
 </div>
 
 {% endif %}

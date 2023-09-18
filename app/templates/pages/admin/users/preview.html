@@ -13,6 +13,7 @@
             <th scope="col">Email</th>
             <th scope="col">Role</th>
             <th scope="col">Membership</th>
+            <th scope="col">Account Details</th>
             <th scope="col">Actions</th>
         </tr>
     </thead>
@@ -26,7 +27,10 @@
             <td>{{user.lastname}}</td>
             <td>{{user.email}}</td>
             <td>{{"Admin" if user.isAdmin else "User"}}</td>
-            <td>{{"---" if user.isAdmin else "UNSUBSCRIBED" if not user.membership else user.membership.name }}</td>
+            <td>{{"---" if user.isAdmin else "UNSUBSCRIBED" if not user.membership else user.membership.package.name }}</td>
+            <td>
+                <a class="btn btn-info text-white" href="#">VIEW DETAILS</a>
+            </td>
             <td class="d-flex-col">
                 <a href="/user/edit/{{user.id}}" class="btn btn-primary text-white">MODIFY</a>
                 <a href="/user/delete/{{user.id}}" class="btn btn-danger text-white">DELETE</a>

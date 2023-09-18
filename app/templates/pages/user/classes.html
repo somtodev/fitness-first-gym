@@ -1,0 +1,83 @@
+{% extends "components/base.html" %} {% block head %}
+<title>Payment Details</title>
+{% endblock %} {% block content %} {% include 'components/navbar.html' %}
+<div class="py-4"></div>
+<section class="bsb-hero-2 py-5" style="
+        min-height: 70vh;
+        display: grid;
+        place-items: center;
+        background-image: url('https://images.pexels.com/photos/2261483/pexels-photo-2261483.jpeg?auto=compress&cs=tinysrgb&w=600');
+        background-repeat: no-repeat;
+        background-size: cover;
+    ">
+    <div class="container overflow-hidden">
+        <div class="
+                row
+                gy-3 gy-lg-0
+                align-items-lg-center
+                justify-content-lg-between
+            ">
+            <div class="col-12 col-lg-6 order-1 order-lg-0">
+                <h1 class="display-3 fw-bold mb-3 text-white">Our Classes</h1>
+                <p class="fs-5 mb-5 text-white">
+                    Powerful, extensible, and feature-packed frontend toolkit.
+                    Build and customize with Sass, utilize prebuilt grid system
+                    and components, and bring projects to life with powerful
+                    JavaScript plugins.
+                </p>
+            </div>
+            <div class="col-12 col-lg-5 text-center"></div>
+        </div>
+    </div>
+</section>
+<section class="container my-4">
+
+    <span><b>Note:</b> Each Class Has An Hour Duration</span>
+    <div class="
+            row row-cols-1 row-cols-md-2 row-cols-lg-3 row
+            align-items-stretch
+            justify-content-start
+            card-deck
+        ">
+        {% if classes %}
+
+        {% for class in classes %}
+        <div class="col gy-3">
+            <div class="card h-100">
+                <!-- <img src="..." class="card-img-top" alt="..." /> -->
+                <div class="card-body d-flex flex-column">
+                    <h4 class="card-title">{{class.name}}</h4>
+                    <div class="col d-flex justify-content-between">
+                        <b class="fs-6">Category:</b>
+                        <span class="fs-8">{{class.category.name}}</span>
+                    </div>
+                    <div class="col d-flex justify-content-between">
+                        <b class="fs-6">Trainer:</b>
+                        <span class="fs-8">{{class.trainer.firstname}} {{class.trainer.lastname}}</span>
+                    </div>
+                    <div class="col d-flex justify-content-between">
+                        <b class="fs-6">Date:</b>
+                        <span class="fs-8">{{class.schedule.day}}, {{class.schedule.strftime('%B')}},
+                            {{class.schedule.year}}</span>
+                    </div>
+                    <div class="col d-flex justify-content-between">
+                        <b class="fs-6">Time:</b>
+                        <span class="fs-8">{{class.schedule.strftime('%H:%M')}}</span>
+                    </div>
+                    <hr />
+                    <p class="card-text">{{class.description}}</p>
+                    <div class="mt-auto align-self-end">
+                        <a href="/book/{{class.id}}" class="card-link btn btn-info text-white">Book</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="my-3 py-2 text-center">
+        <h3>No Class Available For Booking</h3>
+    </div>
+    {% endif %}
+</section>
+{% include 'components/footer.html' %} {% endblock %}

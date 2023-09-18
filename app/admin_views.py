@@ -26,6 +26,22 @@ def authorize_request(view_func):
    return wrapped_view
 
 
+def membership_validator(view_func):
+   @wraps(view_func)
+   def wrapped_view(*args, **kwargs):
+      
+      try:
+         if current_user.membership.package_id is None:
+             flash('Not A Member')
+             return redirect('/')
+         else:
+            return view_func(*args, **kwargs)
+      except Exception as error:
+         return render_template('pages/error/500.html', error=error)
+         
+   return wrapped_view
+
+
 @app.route('/admin/dashboard')
 @login_required
 @authorize_request

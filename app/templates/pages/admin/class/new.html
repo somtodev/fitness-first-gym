@@ -13,7 +13,7 @@
     <div class="col-12">
         <div class="form-floating">
             <textarea class="form-control" placeholder="Address" id="description" name="description" required
-                style="height: 100px;"></textarea>
+                style="height: 100px;" minlength="25"></textarea>
             <label for="floatingTextarea">Description</label>
         </div>
     </div>
@@ -29,7 +29,7 @@
         <label for="inputEmail4" class="form-label">Trainer</label>
         <select id="trainer" name="trainer" class="form-select">
             {% for trainer in trainers %}
-                <option value="{{trainer.id}}">{{"Trainer " + trainer.firstname}}</option>
+                <option value="{{trainer.id}}">{{"Trainer " + trainer.firstname + " " + trainer.lastname + " ( " + trainer.category.name + " ) "}}</option>
             {% endfor %}
         </select>
     </div>

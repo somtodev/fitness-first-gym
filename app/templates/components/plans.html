@@ -1,5 +1,5 @@
 <!-- Blog 2 - Bootstrap Brain Component -->
-{% if current_user.is_authenticated and current_user.membership_id == None %}
+{% if current_user.is_authenticated and current_user.membership.package_id == None %}
 
 
 <section class="py-3 py-md-5 py-xl-8">
@@ -14,27 +14,30 @@
 
     <div class="container overflow-hidden">
         <div class="row gy-3 gy-lg-0 gx-xxl-5">
-            
+
             {% if packages %}
 
 
             {% for package in packages %}
-            <div class="col-12 col-lg-4">
-                <article class="p-3 border border-secondary rounded-2 rounded-top rounded-bottom">
+            <div class="col-12 col-lg-4 gy-3">
+                <article
+                    class="p-3 border border-secondary rounded-2 rounded-top rounded-bottom h-100 d-flex flex-column">
                     <div class="entry-header mb-3">
-                        <h2 class="entry-title h4 mb-0">
+                        <h2 class="entry-title h5 mb-0">
                             {{package.name}}
                         </h2>
                         <div class="my-2">
-                            <h2 class="entry-title h5 mb-0 text-primary">
-                                &dollar;&nbsp;{{package.price}}
-                            </h2>
+                            <span class="entry-title h5 mb-0 text-primary">
+                                ₦&nbsp;{{package.price}}
+                            </span>
                         </div>
                     </div>
-                    <div class="entry-footer">
+                    <div class="entry-body">
                         <p class="card-text">{{package.description}}</p>
+                    </div>
+                    <div class="entry-footer mt-auto align-self-end">
                         <div class="my-2">
-                            <button class="btn btn-primary">Subscribe</button>
+                            <a href="/payment/subscribe/{{package.id}}" class="btn btn-success text-white">Subscribe</a>
                         </div>
                     </div>
                 </article>

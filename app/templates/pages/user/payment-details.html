@@ -1,0 +1,78 @@
+{% extends "components/base.html" %} {% block head %}
+<title>Payment Details</title>
+{% endblock %} {% block content %}
+<main class="container my-5">
+    <div class="d-flex justify-content-between align-items-center my-2">
+        <div>
+            <h1>Payment Details</h1>
+        </div>
+        <a class="btn btn-danger" href="/">Back</a>
+    </div>
+    <p style='opacity:.65'><b>NOTE: </b>Dummy data need for all inputs, payment logic not implemented</p>
+    <hr />
+
+    <form action="/payment/subscribe/{{package.id}}" method="post">
+        <div class="form-group my-4">
+            <label for="subject" class="form-label h6">Card No:</label>
+            <input
+                type="text"
+                class="form-control"
+                id="card_number"
+                name="card_number"
+                minlength="10"
+                maxlength="10"
+                required
+            />
+        </div>
+        <div class="form-group my-4">
+            <label for="subject" class="form-label h6">Cardholder name :</label>
+            <input
+                type="text"
+                class="form-control"
+                id="card_name"
+                name="card_name"
+                minlength="12"
+                minlength="15"
+                required
+            />
+        </div>
+        <div class="form-group d-flex">
+            <div class="my-4">
+                <label for="subject" class="form-label h6">Expiry Date:</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    id="expiry_date"
+                    name="expiry_date"
+                    required
+                />
+            </div>
+
+            <div class="form-group my-4 mx-2">
+                <label for="subject" class="form-label h6">Card CVV:</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    id="cvv"
+                    name="cvv"
+                    required
+                />
+            </div>
+        </div>
+        <hr>
+        <div class="d-flex flex-column">
+            <div class="col d-flex justify-content-between mb-2">
+                <b>Service: </b>
+                <span>{{package.name}}</span>
+            </div>
+            <div class="col d-flex justify-content-between">
+                <b>Total: </b>
+                <span>₦ {{package.price}}</span>
+            </div>
+        </div>
+        <div class="form-group my-4">
+            <button class="w-100 btn btn-primary" type="submit">Pay</button>
+        </div>
+    </form>
+</main>
+{% endblock %}

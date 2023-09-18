@@ -13,10 +13,19 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(200), nullable=False)
     isAdmin = db.Column(db.Boolean(), default=False)
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
-
+    payment_details = db.relationship('PaymentDetails', uselist=False, back_populates='user')
+    membership = db.relation('Membership', uselist=False, back_populates='user')
 
     def __repr__(self):
         return '<User %r>' % self.email
+
+
+class Membership(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    package_id = db.Column(db.Integer, db.ForeignKey('package.id')) 
+    package = db.relationship('Package', backref=db.backref('member', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='membership')
 
 
 class Class(db.Model):
@@ -40,12 +49,13 @@ class Trainer(db.Model):
     category = db.relationship('Category', backref=db.backref('trainer_category', lazy='dynamic'))
 
 
-class UserPaymentDetails(db.Model):
-    account_name = db.Column(db.String(100), nullable=False, primary_key=True)
-    card_number = db.Column(db.String(20), nullable=False)
-    card_date = db.Column(db.Date, nullable=False)
+class PaymentDetails(db.Model):
+    card_number = db.Column(db.String(20), nullable=False, primary_key=True)
+    card_name  = db.Column(db.String(100), nullable=False)
+    card_expiry_date = db.Column(db.Date, nullable=False)
     card_cvv = db.Column(db.String(4), nullable=False)
-
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='payment_details')
 
 @login_manager.user_loader
 def load_user(id):

@@ -1,12 +1,15 @@
-from app import app
 from flask import request, redirect, render_template, flash, url_for
 from flask_login import login_required, current_user, login_user
-from app import db
-from app.models import User
-from app.models.Package import Package
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.admin_views import authorize_request
+from datetime import datetime
+
+from app import app
+from app import db
+from app.models import User, PaymentDetails, Membership, Class
+from app.models.Package import Package
+
+from app.admin_views import authorize_request, membership_validator
 
 
 @app.route('/user')
@@ -17,8 +20,15 @@ def user():
 
 @app.route('/user/classes', methods=['GET'])
 @login_required
-def userClasses():
-    return 'User Classes'
+@membership_validator
+def user_classes():
+    print(current_user.membership.package_id)
+    classes = Class.query.filter_by(category_id = current_user.membership.package.category_id)
+
+    for _class in classes:
+        print(_class.name)
+
+    return render_template('pages/user/classes.html', classes=classes)
 
 
 @app.route('/user/bookings', methods=['GET'])
@@ -106,3 +116,48 @@ def delete_user(id):
     flash('User Deleted')
 
     return redirect(url_for('all_users'))
+
+@app.route('/payment/subscribe/<int:package_id>', methods=['GET', 'POST'])
+@login_required
+def user_payment_details(package_id):
+
+    package = Package.query.get(package_id)
+    
+    if request.method == 'POST':
+
+        card_name = request.form.get('card_name')
+        card_number = request.form.get('card_number')
+        card_cvv = request.form.get('cvv')
+        card_expiry_date = datetime.strptime(request.form.get('expiry_date'), "%Y-%m-%d").date()
+
+        if PaymentDetails.query.get(card_number) is not None:
+            flash('Account with same number existing')
+            return render_template('pages/user/payment-details.html', package=package)
+
+        if any(c.isalpha() for c in card_number):
+            flash('Card Number Cannot Container Letters')
+            return render_template('pages/user/payment-details.html', package=package)
+
+        if len(card_cvv) > 3 or len(card_cvv) < 3:
+            flash('CVV Must Be 3 Characters')
+            return render_template('pages/user/payment-details.html', package=package)
+
+
+        current_date = datetime.now().date()
+        if card_expiry_date < current_date:
+            flash('Card Expired')
+            return render_template('pages/user/payment-details.html', package=package)
+
+        payment_details = PaymentDetails(user_id=current_user.id, card_name=card_name, card_number=card_number, card_expiry_date=card_expiry_date, card_cvv=card_cvv)
+
+        membership = Membership.query.filter_by(user_id=current_user.id).first()
+        membership.package_id = package.id
+
+        db.session.add(payment_details)
+        db.session.commit()
+
+        flash('Created')
+        return redirect(url_for('index'))
+
+
+    return render_template('pages/user/payment-details.html', package=package)
