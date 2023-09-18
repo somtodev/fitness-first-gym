@@ -12,6 +12,7 @@ from app.models import Trainer, Class, User
 
 @app.route('/admin/class/all')
 @login_required
+@authorize_request
 def all_classes():
     classes = Class.query.all()
     return render_template('pages/admin/class/preview.html', classes=classes)
@@ -111,16 +112,5 @@ def delete_class(id):
         flash('Class Not Deleted')
 
     return redirect(url_for('all_classes'))
-
-
-@app.route('/class/<int:user_id>/', methods=['GET'])
-@login_required
-def get_user_class(user_id):
-
-    user = User.query.get(user_id)
-
-    classes = Class.query.filter_by(category_id=1)
-
-    print(classes)
-
-    return redirect(url_for('admin_dashboard'))
+    
+    

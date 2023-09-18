@@ -27,7 +27,7 @@
             <td>{{user.lastname}}</td>
             <td>{{user.email}}</td>
             <td>{{"Admin" if user.isAdmin else "User"}}</td>
-            <td>{{"---" if user.isAdmin else "UNSUBSCRIBED" if not user.membership else user.membership.package.name }}</td>
+            <td>{{"---" if user.isAdmin else "UNSUBSCRIBED" if not user.membership.package else user.membership.package.name }}</td>
             <td>
                 <a class="btn btn-info text-white" href="#">VIEW DETAILS</a>
             </td>

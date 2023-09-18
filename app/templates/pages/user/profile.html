@@ -67,8 +67,8 @@
                         <hr />
                         <div class="form-group my-4">
                             <label for="subject" class="form-label">New Password:</label>
-                            <input type="password" class="form-control" id="new" name="new" placeholder="Enter New Password"
-                                required new-password />
+                            <input type="password" class="form-control" id="new" name="new"
+                                placeholder="Enter New Password" required new-password />
                         </div>
                         <div class="form-group my-4">
                             <label for="subject" class="form-label">Confirm New Password:</label>
@@ -83,6 +83,16 @@
             </div>
         </div>
     </div>
+
+    {% if not current_user.isAdmin and current_user.membership.package != None %}
+    <hr>
+    <div class="col">
+        <a class="btn btn-primary" href="/user/edit/payment-details" type="button">
+            Update Payment Details
+        </a>
+        <a href="/user/unsubscribe" class="btn btn-danger align-self-end">Unsubscribe Package</a>
+    </div>
+    {% endif %}
 </main>
 
 {% endblock %}

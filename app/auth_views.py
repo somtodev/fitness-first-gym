@@ -47,10 +47,10 @@ def register():
         user_password = generate_password_hash(request.form['password'])
         print(user_password)
 
-        existing_user = db.session.query(User.id).filter_by(email=user_email).first()
+        existing_user = User.query.filter_by(email=user_email).first()
         print(existing_user)
 
-        if existing_user:
+        if existing_user is not None:
             flash("Another Account Uses That Mail Address")
             return render_template('pages/auth/register.html')
 

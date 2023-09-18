@@ -31,7 +31,7 @@ def membership_validator(view_func):
    def wrapped_view(*args, **kwargs):
       
       try:
-         if current_user.membership.package_id is None:
+         if current_user.membership.package is None:
              flash('Not A Member')
              return redirect('/')
          else:

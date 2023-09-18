@@ -1,5 +1,5 @@
 from app import db
-from datetime import datetime
+from datetime import datetime, date
 from flask_login import UserMixin
 from app import login_manager   
 
@@ -56,6 +56,22 @@ class PaymentDetails(db.Model):
     card_cvv = db.Column(db.String(4), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', back_populates='payment_details')
+
+class MembershipBooking(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, default=date.today())
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='class_booking')
+    package_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    package = db.relationship('User', back_populates='membership_booking')
+
+
+class ClassBooking(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, default=date.today())
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='class_booking')
+
 
 @login_manager.user_loader
 def load_user(id):
