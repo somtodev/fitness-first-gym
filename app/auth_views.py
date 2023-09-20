@@ -27,7 +27,7 @@ def login():
         else:
             login_user(user)
             if not user.isAdmin:
-                flash(f'Success: Welcome, {current_user.firstname}')
+                flash(f'Welcome, {current_user.firstname}')
                 return redirect(url_for('index'))
             else:
                 return redirect('/admin/dashboard')
@@ -62,6 +62,7 @@ def register():
             membership = Membership(user_id=user.id)
             db.session.add(membership)
             db.session.commit()
+            flash('Account Created')
             return redirect('/auth/login')
         except Exception as err:
             print(err)
