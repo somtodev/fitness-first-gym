@@ -6,8 +6,8 @@ from flask_login import login_required, current_user
 from sqlalchemy import inspect, text
 
 
+from app.models import User, Class, Trainer, MembershipBooking, ClassBooking, Membership
 from app.models.Package import Package, Category, PackageType
-from app.models import User, Class, Trainer
 
 def authorize_request(view_func):
    @wraps(view_func)
@@ -48,7 +48,14 @@ def membership_validator(view_func):
 def admin_dashboard():
    if not current_user.isAdmin:
       return redirect('/')
-   return render_template('pages/admin/dashboard.html')
+
+   return render_template('pages/admin/dashboard.html' , data= dict(
+      users = len(User.query.all()),
+      packages = len(Package.query.all()),
+      b_mem = len(MembershipBooking.query.all()),
+      b_class = len(ClassBooking.query.all()),
+      trainers = len(Trainer.query.all())
+   ))
 
 
 

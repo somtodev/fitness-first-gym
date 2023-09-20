@@ -1,5 +1,95 @@
 {% extends "components/admin_base.html" %} {% block head %}
 <title>Fitness First Gym | Admin Dashboard</title>
 {% endblock %} {% block content %}
+<main class="container">
 
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Total Users Card  -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card  rounded rounded-4 h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="font-weight-bold text text-uppercase mb-1 text-primary">
+                                    Total Users</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{data.get('users')}}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Packages Card  -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card  rounded rounded-4 h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="font-weight-bold text text-uppercase mb-1 text-primary">
+                                    Number Of Packages</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{data.get('packages')}}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Trainers Card  -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card  rounded rounded-4 h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="font-weight-bold text text-uppercase mb-1 text-primary">
+                                    Total Trainer</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{data.get('trainers')}}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Booked Classes Card  -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card  rounded rounded-4 h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="font-weight-bold text text-uppercase mb-1 text-primary">
+                                    Total Booked Classes</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{data.get('b_class')}}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <hr />
+
+        
+
+    
+</main>
 {% endblock %}
