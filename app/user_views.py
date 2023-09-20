@@ -238,6 +238,10 @@ def delete_user(id):
     user = User.query.get(id)
     user_membership = Membership.query.filter_by(user_id=id).first()
     user_payment_details = PaymentDetails.query.filter_by(user_id=id).first()
+    user_membership_booking = MembershipBooking.query.filter_by(user_id=id)
+
+    for booking in user_membership_booking:
+        db.session.delete(booking)
 
     db.session.delete(user)
     db.session.delete(user_membership)

@@ -20,6 +20,11 @@ def class_bookings():
 @authorize_request
 def membership_bookings():
     bookings = MembershipBooking.query.all()
+    # print(bookings)
+    # return 'here'
+    if bookings is None:
+        return 'None'
+        return render_template('pages/admin/booking/memberships.html')
     return render_template('pages/admin/booking/memberships.html', bookings=bookings)
 
 
