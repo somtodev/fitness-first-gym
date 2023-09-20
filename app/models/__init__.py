@@ -57,20 +57,23 @@ class PaymentDetails(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', back_populates='payment_details')
 
+
 class MembershipBooking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, default=date.today())
+    status = db.Column(db.String(50), default='PENDING')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', back_populates='class_booking')
-    package_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    package = db.relationship('User', back_populates='membership_booking')
+    membership_id = db.Column(db.Integer, db.ForeignKey('membership.id'))
+    membership = db.relationship('Membership', backref=db.backref('membership_booking', lazy='dynamic'))
 
 
 class ClassBooking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, default=date.today())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', back_populates='class_booking')
+    status = db.Column(db.String(50), default='PENDING')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    class_id = db.Column(db.Integer, db.ForeignKey('class.id'), nullable=False)
+    class_details = db.relationship('Class', backref=db.backref('class_booking', lazy='dynamic'))
 
 
 @login_manager.user_loader

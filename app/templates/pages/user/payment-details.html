@@ -21,6 +21,7 @@
                 name="card_number"
                 minlength="10"
                 maxlength="10"
+                value = "{{details.card_number if details}}"
                 required
             />
         </div>
@@ -33,6 +34,7 @@
                 name="card_name"
                 minlength="12"
                 minlength="15"
+                value = "{{details.card_name if details}}"
                 required
             />
         </div>
@@ -44,6 +46,7 @@
                     class="form-control"
                     id="expiry_date"
                     name="expiry_date"
+                    value= "{{details.card_expiry_date if details}}"
                     required
                 />
             </div>
@@ -55,6 +58,7 @@
                     class="form-control"
                     id="cvv"
                     name="cvv"
+                    value= "{{details.card_cvv if details}}"
                     required
                 />
             </div>

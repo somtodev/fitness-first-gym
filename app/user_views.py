@@ -6,7 +6,7 @@ from datetime import datetime
 
 from app import app
 from app import db
-from app.models import User, PaymentDetails, Membership, Class
+from app.models import User, PaymentDetails, Membership, Class, ClassBooking, MembershipBooking
 from app.models.Package import Package
 
 from app.admin_views import authorize_request, membership_validator
@@ -18,11 +18,8 @@ from app.admin_views import authorize_request, membership_validator
 def user_classes():
 
     classes = Class.query.filter_by(category_id = current_user.membership.package.category_id)
-    print(current_user.membership.package.category.name)
-    # return 'Here'
 
     if current_user.membership.package.category.name.lower() == 'premium':
-        print('Here')
         classes = Class.query.all()
         return render_template('pages/user/classes.html', classes=classes)
 
@@ -32,6 +29,8 @@ def user_classes():
 @app.route('/user/bookings', methods=['GET'])
 @login_required
 def user_bookings():
+    bookings = ClassBooking.query.filter_by(user_id=current_user.id)
+    return render_template('pages/user/booking-details.html', bookings=bookings)
     return 'User Bookings'
 
 
@@ -79,6 +78,25 @@ def update_password():
 def user_payment_details(package_id):
 
     package = Package.query.get(package_id)
+
+    details = PaymentDetails.query.filter_by(user_id=current_user.id).first()
+
+    if details is not None:
+        
+        if request.method == 'POST':
+
+            membership = Membership.query.filter_by(user_id=current_user.id).first()
+            membership.package_id = package.id # Updating User Membership
+
+            booking = MembershipBooking(user_id=current_user.id,membership_id=membership.id, status='SUCCESS')
+
+            db.session.add(booking)
+            db.session.commit()
+
+            return redirect('/')
+
+        return render_template('pages/user/payment-details.html', details=details, package=package)
+
     
     if request.method == 'POST':
 
@@ -107,16 +125,18 @@ def user_payment_details(package_id):
 
         payment_details = PaymentDetails(user_id=current_user.id, card_name=card_name, card_number=card_number, card_expiry_date=card_expiry_date, card_cvv=card_cvv)
 
+
         membership = Membership.query.filter_by(user_id=current_user.id).first()
         membership.package_id = package.id
 
+        membership_booking = MembershipBooking(user_id=current_user.id,membership_id=membership.id, status='SUCCESS') 
+
         db.session.add(payment_details)
+        db.session.add(membership_booking)
         db.session.commit()
 
         flash('Created')
         return redirect(url_for('index'))
-
-
     return render_template('pages/user/payment-details.html', package=package)
 
 
@@ -125,6 +145,15 @@ def user_payment_details(package_id):
 def unsubscribe_user():
 
     user = User.query.get(current_user.id)
+    class_bookings = ClassBooking.query.filter_by(user_id=current_user.id)
+    membership_bookings = MembershipBooking.query.filter_by(user_id=current_user.id)
+
+    for booking in class_bookings:
+        db.session.delete(booking)
+
+    for booking in membership_bookings:
+        db.session.delete(booking)
+
 
     user.membership.package = None
 
@@ -137,8 +166,6 @@ def unsubscribe_user():
 def update_payment_details():
 
     details = PaymentDetails.query.filter_by(user_id=current_user.id).first()
-    print(details.card_name)
-    # return('Here')
 
     if request.method == 'POST':
 
@@ -216,6 +243,7 @@ def delete_user(id):
     db.session.delete(user_membership)
     db.session.delete(user_payment_details)
     db.session.commit()
+
     flash('User Deleted')
 
     return redirect(url_for('all_users'))
