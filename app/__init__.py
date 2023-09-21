@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import timedelta
 import flask_login
 
+# Application Configuration
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite'
 db = SQLAlchemy(app)
@@ -13,6 +14,7 @@ login_manager = flask_login.LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 
+# Initializing All Views | So The App Could Access Them
 from app import views
 from app import auth_views
 from app import admin_views

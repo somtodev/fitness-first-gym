@@ -1,11 +1,25 @@
 # Fitness First Gym
 
+---
+[Live Website](http://fitness-first-gym.onrender.com/): We deployed our project lived for easy access.
+
+---
+
+Below are login details for the admin
+
+**Email Address**: admin@mail.com
+**Password**: admin_aptech_2023
+
+---
+
+
 ## Contents
 1. [Introduction](#introduction)
-2. [Proposed Solution](#proposed-solution)
-3. [Project File Structure](#project-file-structure)
-4. [Program Routes](#program-routes)
+2. [Project File Structure](#project-file-structure)
+3. [Program Routes](#program-routes)
+4. [Program Middlwares](#program-middlewares)
 5. [Web App Usuage](#how-to-use-web-app)
+5. [How To Install & Run](#how-to-install--run)
 
 ## Introduction
 
@@ -13,8 +27,6 @@ The Fitness First GYM project aims to develop a comprehensive website for a loca
 
 FOR MODEL STRUCTURE: [Click Here](./BreakDown.md)
 FOR MORE INFO: [Click Here](./Documentation.pdf)
-
-## Proposed Solution
 
 The proposed solution involves building a dynamic website with the following core features:
 
@@ -51,9 +63,15 @@ The proposed solution involves building a dynamic website with the following cor
 * **instance**: contains database file (database.sqlite)
 
 * **app**: contains all web app templates, routes and third party libs like bootstrap and js
+   * **models**: contains all models used in development of this application
+   * **static**: contains images, css and js files used in the development of the project.
+   * **templates**: contains all the web pages for the web app.
+      * **admin**: contains all the web pages an admin can acces
+      * **user**: contains the web app pages accessible by both the admin and user.
+      * **components**: contains some components which were been used in the project. I.E (base.html and other core components).
 
 ## Program Routes
-
+> **NOTE**: Some routes are protected by middlewares, click [here for info](#program-middlewares)
 - Users 
     - All Users
         - /: Homepage
@@ -64,9 +82,17 @@ The proposed solution involves building a dynamic website with the following cor
         - /profile: Profile Page (Edit)
         - /classes: User Classes Page
         - /bookings: User Booked Classes Page
-
 - Admin
 
+
+## Program Middlewares
+Below are three middleware created to security integrity in fitness first gym.
+
+* **@login_required**: protects a route by making sure any user who tries to access this route is logged in.
+
+* **@membership_validator**: protects a route by making sure before the user access a route, he or she must be a member of a package.
+
+* **@authorize_request**: protects a route by making sure any user who tries to access this route is an ***administrator***.
 
 ## How to use web app
 
@@ -79,5 +105,28 @@ You can login in as user by creating a new account then logining into that new a
 Below are login details for the admin
 
 **Email Address**: admin@mail.com
+**Password**: admin_aptech_2023
 
-**Password**: admin
+
+## How To Install & Run
+
+**Requirements:**
+Below are the requirements to proceed
+* Python 
+* Pip
+
+> NOTE: A requirements.txt file is provided, it contains all the dependecies to run the project.
+
+To Install Dependencies, Run:
+```
+pip3 install -r requirements.txt
+```
+or
+```
+python -m pip3 install -r requirements.txt
+```
+Once All Packages are downloaded
+THEN RUN,
+```
+gunicorn app:app
+```

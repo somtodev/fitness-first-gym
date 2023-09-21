@@ -9,6 +9,8 @@ from sqlalchemy import inspect, text
 from app.models import User, Class, Trainer, MembershipBooking, ClassBooking, Membership
 from app.models.Package import Package, Category, PackageType
 
+
+# Description: A middlware to check if a user is an admin. It's used to protect routes to only admin access.
 def authorize_request(view_func):
    @wraps(view_func)
    def wrapped_view(*args, **kwargs):
@@ -25,7 +27,7 @@ def authorize_request(view_func):
          
    return wrapped_view
 
-
+# Description: A middleware to protect routes from non-membered users
 def membership_validator(view_func):
    @wraps(view_func)
    def wrapped_view(*args, **kwargs):
@@ -42,6 +44,7 @@ def membership_validator(view_func):
    return wrapped_view
 
 
+# Description: Route to admin dashboard
 @app.route('/admin/dashboard')
 @login_required
 @authorize_request
@@ -59,6 +62,7 @@ def admin_dashboard():
 
 
 
+# Description: Route to create a new package
 @app.route('/admin/package/new', methods=['POST', 'GET'])
 @login_required
 @authorize_request
