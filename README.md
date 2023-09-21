@@ -78,11 +78,21 @@ The proposed solution involves building a dynamic website with the following cor
         - /contact-us: Contact Us Page
         - /auth/login: Login Page
         - /auth/register: Register User Page
+        - /auth/logout: Logout the User
     - Registered Users
         - /profile: Profile Page (Edit)
-        - /classes: User Classes Page
-        - /bookings: User Booked Classes Page
+        - /user/classes: User Classes Page
+        - /user/bookings: User Booked Classes Page
 - Admin
+> **NOTE**: All admin route is protected by an **@authorize_request** middleware that protects them from normal users.
+   - /admin/dashboard: The Admin Dashboard
+   - /admin/categories: Manage categories page
+   - /admin/booking/memberships: Shows all membership bookings
+   - /admin/booking/classes: Shows all the class bookings
+   - /admin/package/all: Shows all the current packages available for members
+   - /admin/trainer/all: Shows all the gym trainers
+   - /admin/class/all: Show all created classes
+
 
 
 ## Program Middlewares
